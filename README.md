@@ -2,7 +2,151 @@
 
 ## This repo holds the serverless template of Rupod to deploy Flan-T5 base model fine-tuned on CNN Daily Mail dataset for Summarisation.
 
-## Getting started
+### 1. Call our Endpoint for Inference 
+
+Adds an inference call to the queue
+
+#### API VERSION 2
+
+[https://api.banana.dev/start/v](https://api.runpod.ai/v2/)
+
+method : POST
+
+#### Using cURL
+- example
+```
+curl -X POST https://api.runpod.ai/v2/5oegxkas8q653w/runsync \
+-H 'Content-Type: application/json'                             \
+-H 'Authorization: Bearer xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'    \
+-d '{"input": {
+        "content": "Tron is a decentralized, blockchain-based, open-source protocol supporting various kinds of blockchain networks and smart contract systems including bitcoin, Ethereum, EOS, Qtum, and other public blockchain smart contracts TRON features a delegated proof-of-stake(DPoS) principles as its consensus algorithm and a cryptocurrency native to the system, known as Tronix (TRX). Tron was established in March 2014 by Justin Sun and since 2017 it has been overseen and supervised by the a non-profit TRON Foundation organization in Singapore which was established in the same year. TRX is the mainnet native token of the TRON protocol issued by TRON DAO which is a community-governed DAO dedicated to accelerating the decentralization of the internet blockchain technology and DApps. TRX is the basic unit of accounts on the TRON blockchain. TRX is also a natural medium currency for all TRC-based tokens. TRX connects the whole TRON ecosystem with abundant application scenarios that power transactions and applications on the chain. TRX was originally an Ethereum-based ERC-20 token, but switched its protocol to its own blockchain in 2018. TRC20 has a fee of 5 Tron per 1 USDT coin for the transfer. Overview History 2017 The TRON Foundation was established in July 2017 in Singapore. TRON was founded by Justin Sun in September 2017. The Foundation raised $70 million in 2017 through an initial coin offering before China outlawed the digital tokens. 2018 The blockchain Explorer testnet, and Web Wallet were all launched in March 2018. "  
+}}'
+```
+sample ouput in json:
+```
+{
+    "id": "782c0db8-271a-424f-8bc6-a6e66582f1b7",
+    "status": "IN_QUEUE"
+    [{'summary_text': 'Tron is a decentralized, open-source protocol supporting various kinds of blockchain networks and smart contract systems .'}]
+}
+```
+
+
+#### Using Python
+- example
+```
+import runpod
+
+runpod.api_key = "YOUR_API_KEY"
+endpoint = runpod.Endpoint("ENDPOINT_ID")
+
+run_request = endpoint.run(
+    {"YOUR_MODEL_INPUT_JSON": "YOUR_MODEL_INPUT_VALUE"}
+)
+
+# Check the status of the endpoint run request
+print(run_request.status())
+
+# Get the output of the endpoint run request, blocking until the endpoint run is complete.
+print(run_request.output())
+```
+
+#### Using NodeJS
+- example
+```
+const request = require('request');
+
+// Set the API endpoint and model name
+const endpoint = 'https://api.runpod.ai/v2/5oegxkas8q653w/runsync';
+
+// Set the API key and input data
+const apiKey = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+const inputData = {
+  input: {
+    prompt: 'My creative vision.',
+  },
+};
+
+// Set the headers for the request
+const headers = {
+  'Content-Type': 'application/json',
+  Authorization: `Bearer ${apiKey}`,
+};
+
+// Make the request
+request.post(
+  {
+    url: endpoint,
+    json: inputData,
+    headers,
+  },
+  (err, response) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    // Print the response
+    console.log(response.body);
+  },
+);
+```
+#### Using Go
+- example
+```
+package main
+
+import (
+  "bytes"
+  "encoding/json"
+  "fmt"
+  "io/ioutil"
+  "log"
+  "net/http"
+)
+
+func main() {
+  // Set the API endpoint and model name
+  endpoint := "https://api.runpod.ai/v2/5oegxkas8q653w/runsync" 
+
+  // Set the API key and input data
+  apiKey := "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  inputData := map[string]interface{}{
+    "input": map[string]string{
+      "prompt": "My creative vision.",
+    },
+  }
+
+  // Convert the input data to JSON
+  inputJSON, err := json.Marshal(inputData)
+  if err != nil {
+    log.Fatal(err)
+  }
+
+  // Set the headers for the request
+  headers := map[string][]string{
+    "Content-Type": {"application/json"},
+    "Authorization": {fmt.Sprintf("Bearer %s", apiKey)},
+  }
+
+  // Make the request
+  resp, err := http.Post(endpoint, "application/json", bytes.NewBuffer(inputJSON))
+  if err != nil {
+    log.Fatal(err)
+  }
+  defer resp.Body.Close()
+
+  // Print the response
+  body, err := ioutil.ReadAll(resp.Body)
+  if err != nil {
+    log.Fatal(err)
+  }
+  fmt.Println(string(body))
+}
+```
+
+
+## 2. To run our model on your'r local Machine:
 
 1. Load the serverless template into your local machine
 
@@ -22,12 +166,13 @@ python3 app.py
 ```
 The above commands invokes app.py file for running on python env, takes test_input.json file in the directory as input and generates result on your terminal.
 
-## Model deployment in banana dev
-### 1. Create an account on Runpod [Sign up for Runpod](https://www.runpod.io/)
+## 3. Deploying our Model on you'r Runpod:
 
-### 2. Goto Templates on runpod [Runpod Serverless Templates](https://www.runpod.io/console/serverless/user/templates)
+1. Create an account on Runpod [Sign up for Runpod](https://www.runpod.io/)
 
-1. Select New Template 
+2. Goto Templates on runpod [Runpod Serverless Templates](https://www.runpod.io/console/serverless/user/templates)
+
+3. Select New Template 
 ![Fill data in Template & Save](https://github.com/EveripediaNetwork/runpod-serverless-summary/blob/main/images/new_template.png?raw=true)
 2. Give Your Template a Name ( optional )
 3. Paste ``` ghcr.io/everipedianetwork/runpod-serverless-summary:latest ``` in container image section
@@ -50,52 +195,8 @@ Go to Runpod API dashbooard
 ![Save API](https://github.com/EveripediaNetwork/runpod-serverless-summary/blob/main/images/save_api.png?raw=true)
 
 
-## Endpoint API using CURL
-
-### 1. Call Endpoint for Inference 
-
-Adds an inference call to the queue
-
-Returns inference results if available in <10 seconds, else returns a Call ID
-
-#### API VERSION 1
+## 4. Details about the Model We are Using:
 ```
-https://api.banana.dev/start/v4
-```
-method : POST
-
-example -
-```
-curl -X POST https://api.runpod.ai/v1/<API_ID>/run \
--H 'Content-Type: application/json'                             \
--H 'Authorization: Bearer <API TOKEN>'    \
--d '{"input": {"contentt": "a cute magical flying dog, fantasy art drawn by disney concept artists"}}'
-```
-sample ouput in json:
-```
-{
-    "id": "<job_ID>",
-    "status": "IN_QUEUE"
-}
-```
-
-curl command to check status:
-```
-curl https://api.runpod.ai/v1/<API_ID>/status/<job_ID> \
--H 'Content-Type: application/json' \
--H 'Authorization: Bearer xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'  
-```
-```
-Because check is an async polling call, the status of the ongoing job will be displayed in the message field.
-
-If ```message == "success"```,  then the results will be found in the modelOutputs field.
-
-If ```message contains error```, then the inference failed.
-
-Errors will not throw an api-wide 500 error, as the check call technically was successful.
-
-Make sure to watch for errors in the message field.
-
 ## Training and evaluation data
 * Loss: 1.4232
 
@@ -141,41 +242,6 @@ Datasets 2.7.1
 
 Tokenizers 0.12.1
 
-```
-
-## MODEL INPUTS from wikis
-```
-{
-    'input':
-            {
-                {
-                    'content": "Tron is a decentralized, blockchain-based, open-source protocol supporting various kinds of blockchain networks and smart contract systems including bitcoin, Ethereum, EOS, Qtum, and other public blockchain smart contracts TRON features a delegated proof-of-stake(DPoS) principles as its consensus algorithm and a cryptocurrency native to the system, known as Tronix (TRX). Tron was established in March 2014 by Justin Sun and since 2017 it has been overseen and supervised by the a non-profit 'TRON Foundation' organization in Singapore which was established in the same year. TRX is the mainnet native token of the TRON protocol issued by TRON DAO which is a community-governed DAO dedicated to accelerating the decentralization of the internet blockchain technology and DApps. TRX is the basic unit of accounts on the TRON blockchain. TRX is also a natural medium currency for all TRC-based tokens. TRX connects the whole TRON ecosystem with abundant application scenarios that power transactions and applications on the chain. TRX was originally an Ethereum-based ERC-20 token, but switched its protocol to its own blockchain in 2018. TRC20 has a fee of 5 Tron per 1 USDT coin for the transfer. Overview History 2017 The TRON Foundation was established in July 2017 in Singapore. TRON was founded by Justin Sun in September 2017. The Foundation raised $70 million in 2017 through an initial coin offering before China outlawed the digital tokens. 2018 The blockchain Explorer 'testnet', and Web Wallet were all launched in March 2018. TRON Mainnet launched shortly afterward in May 2018 marking the Odyssey 2.0 release as a key technical milestone for TRON. In June 2018, TRON switched its protocol from an ERC-20 token on top of Ethereum to an independent peer-to-peer network. In July 2018, the TRON Foundation announced it had finished the acquisition of BitTorrent, a peer-to-peer file-sharing service. With this, TRON declared its independence with the creation of the Genesis block.",
-
-                }
-            }
-            
-}
-```
-
-## OUTPUT
-```
-{
-    "delayTime":45,
-    "executionTime":3861,
-    "id":"0690154d-de51-4455-86af-290f6ec7c964",
-    "input":{
-                "content":"Tron is a decentralized, blockchain-based, open-source protocol supporting various kinds of blockchain networks and smart contract systems including bitcoin, Ethereum, EOS, Qtum, and other public blockchain smart contracts TRON features a delegated proof-of-stake(DPoS) principles as its consensus algorithm and a cryptocurrency native to the system, known as Tronix (TRX). Tron was established in March 2014 by Justin Sun and since 2017 it has been overseen and supervised by the a non-profit \'TRON Foundation\' organization in Singapore which was established in the same year. TRX is the mainnet native token of the TRON protocol issued by TRON DAO which is a community-governed DAO dedicated to accelerating the decentralization of the internet blockchain technology and DApps. TRX is the basic unit of accounts on the TRON blockchain. TRX is also a natural medium currency for all TRC-based tokens. TRX connects the whole TRON ecosystem with abundant application scenarios that power transactions and applications on the chain. TRX was originally an Ethereum-based ERC-20 token, but switched its protocol to its own blockchain in 2018. TRC20 has a fee of 5 Tron per 1 USDT coin for the transfer. Overview History 2017 The TRON Foundation was established in July 2017 in Singapore. TRON was founded by Justin Sun in September 2017. The Foundation raised $70 million in 2017 through an initial coin offering before China outlawed the digital tokens. 2018 The blockchain Explorer \'testnet\', and Web Wallet were all launched in March 2018. TRON Mainnet launched shortly afterward in May 2018 marking the Odyssey 2.0 release as a key technical milestone for TRON. In June 2018, TRON switched its protocol from an ERC-20 token on top of Ethereum to an independent peer-to-peer network. In July 2018, the TRON Foundation announced it had finished the acquisition of BitTorrent, a peer-to-peer file-sharing service. With this, TRON declared its independence with the creation of the Genesis block."
-        },
-        
-   "output":
-   [
-        {
-            "summary_text":"Tron is a decentralized, open-source protocol supporting various kinds of blockchain networks and smart contract systems ."
-        }
-    ],
-    
-    "status":"COMPLETED"
-}
 ```
 
 ## Usefull links
