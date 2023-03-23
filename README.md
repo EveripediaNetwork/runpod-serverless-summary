@@ -1,14 +1,20 @@
 # BrainDAO's Package for deploying fine tuned flan-T5 on Runpod
 
-## This repo holds the serverless template of Rupod to deploy Flan-T5 base model fine-tuned on CNN Daily Mail dataset for Summarisation.
+## This repo helps you with the following: 
+     
+   - [Using our inference Endpoint](#1)
+   - [Cloing our container on your machine](#2)
+   - [Deploying our container in your runpod account](#3)
+   - [Details about the fine tuned model](#4)
 
+<a name='1'></a>
 ### 1. Call our Endpoint for Inference 
 
 Adds an inference call to the queue
 
 #### API VERSION 2
 
-[https://api.banana.dev/start/v](https://api.runpod.ai/v2/)
+[https://api.banana.dev/start/v2/](https://api.runpod.ai/v2/)
 
 method : POST
 
@@ -145,7 +151,7 @@ func main() {
 }
 ```
 
-
+<a name='2'></a>
 ## 2. To run our model on your'r local Machine:
 
 1. Load the serverless template into your local machine
@@ -166,6 +172,7 @@ python3 app.py
 ```
 The above commands invokes app.py file for running on python env, takes test_input.json file in the directory as input and generates result on your terminal.
 
+<a name='3'></a>
 ## 3. Deploying our Model on you'r Runpod:
 
 1. Create an account on Runpod [Sign up for Runpod](https://www.runpod.io/)
@@ -194,7 +201,7 @@ Go to Runpod API dashbooard
 * Click Update
 ![Save API](https://github.com/EveripediaNetwork/runpod-serverless-summary/blob/main/images/save_api.png?raw=true)
 
-
+<a name='4'></a>
 ## 4. Details about the Model We are Using:
 ```
 ## Training and evaluation data
@@ -245,7 +252,7 @@ Tokenizers 0.12.1
 ```
 
 ## Usefull links
-Runpod API Docs : [https://docs.banana.dev/banana-docs/](https://docs.runpod.io/ai-endpoints/runpod-apis)]([https://docs.banana.dev/banana-docs/](https://docs.runpod.io/ai-endpoints/runpod-apis)
+Runpod API Docs : [https://docs.banana.dev/banana-docs/](https://docs.runpod.io/ai-endpoints/runpod-apis)
 
 Runpod Custom API's template : [https://app.banana.dev/templates/EveripediaNetwork/summary-banana-template](https://docs.runpod.io/serverless-gpus/custom-apis)
 
