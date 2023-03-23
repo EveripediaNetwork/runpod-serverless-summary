@@ -40,13 +40,14 @@ Go to Runpod API dashbooard
 [Runpod API dashboard](https://www.runpod.io/console/serverless/user/apis)
 
 1. Select New API
-
+![New API](https://github.com/EveripediaNetwork/runpod-serverless-summary/blob/main/images/api_details.png?raw=true)
 2. Create an API by entering:
 * name of api
 * template to use on the api 
 * Min & Max Workers (these values varies as per the need & Requirement)
 * Select the available GPUs
 * Click Update
+![Save API](https://github.com/EveripediaNetwork/runpod-serverless-summary/blob/main/images/save_api.png?raw=true)
 
 
 ## Endpoint API using CURL
