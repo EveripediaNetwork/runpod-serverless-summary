@@ -3,7 +3,7 @@
 ## This repo helps you with the following: 
      
    - [Using our inference Endpoint](#1)
-   - [Cloing our container on your machine](#2)
+   - [Cloning our container on your machine](#2)
    - [Deploying our container in your runpod account](#3)
    - [Details about the fine tuned model](#4)
 
@@ -14,7 +14,7 @@ Adds an inference call to the queue
 
 #### API VERSION 2
 
-[https://api.banana.dev/start/v2/](https://api.runpod.ai/v2/)
+[https://api.runpod.ai/v2/](https://api.runpod.ai/v2/)
 
 method : POST
 
