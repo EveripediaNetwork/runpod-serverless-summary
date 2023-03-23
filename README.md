@@ -32,10 +32,8 @@ The above commands invokes app.py file for running on python env, takes test_inp
 3. Paste ghcr.io/everipedianetwork/runpod-serverless-summary:latest in container image section
 4. Keep your disk space atleast 15GB allocated
 5. Save the Template
-![New Template](https://github.com/[EveripediaNetwork]/[
-runpod-serverless-summary]/blob/[main]/images/template.png?raw=true)
-![Fill data in Template & Save](https://github.com/[EveripediaNetwork]/[
-runpod-serverless-summary]/blob/[main]/images/new\ template.png?raw=true)
+![New Template](https://github.com/EveripediaNetwork/runpod-serverless-summary/blob/main/images/template.png?raw=true)
+![Fill data in Template & Save](https://github.com/EveripediaNetwork/runpod-serverless-summary/blob/main/images/new\ template.png?raw=true)
 
 ### 3. Creating API endpoint 
 [Runpod API dashboard](https://www.runpod.io/console/serverless/user/apis)
